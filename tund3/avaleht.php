@@ -5,6 +5,10 @@
 	$practiceStarted = date("d.m.Y") ." " ."8.15";
 	$myAge = 0;
 	$myBirthYear;
+	$myLoginEmail;
+	$mySignupFirstName;
+	$mySignupFamilyName;
+	$mySignupEmail;
 	$myLivedYearsList = "";
 	$monthNamesEt = ["jaanuar", "veebruar", "märts", "aprill", "mai", "juuni",
 	"juuli", "august", "september", "oktoober", "november", "detsember"];
@@ -36,6 +40,22 @@
 			$myLivedYearsList .= "<li>" .$i ."</li> \n";
 		}
 		$myLivedYearsList .= "</ul> \n";
+	}
+	
+	if(isset($_POST["loginEmail"])){
+		$myLoginEmail = $_POST["loginEmail"];
+	}
+	
+	if(isset($_POST["signupFirstName"])){
+		$mySignupFirstName = $_POST["signupFirstName"];
+	}
+	
+	if(isset($_POST["signupLastName"])){
+		$mySignupLastName = $_POST["signupLastName"];
+	}
+	
+	if(isset($_POST["signupEmail;"])){
+		$mySignupEmail; = $_POST["signupEmail;"];
 	}
 ?>
 
@@ -77,13 +97,42 @@
 		<input id="submitYearBirth" name="submitYearBirth" type="submit" value="Kinnita">
 	
 	</form>
+	
 	<p>Teie vanus on <?php echo $myAge; ?> aastat.</p>
+		
 	<?php
 		if($myLivedYearsList != ""){
 			echo "<h3>Oled elanud järgnevatel aastatel</h3> \n";
 			echo $myLivedYearsList;
 		}
 	?>
+	
+	<h2>Sisse logimine</h2>
+	<p>Sisselogimiseks sisestage oma kasutajanimi ja parool</p>
+	<form method="POST">
+		<label>Teie kasutajanimi või e-mail:</label>
+		<input name="loginEmail" type="email" value="<?php echo $myLoginEmail; ?>">
+		<label>Teie parool:</label>
+		<input name="loginPassword" type="password">
+		<input id="submitLoginInfo" name="submitLoginInfo" type="submit" value="Kinnita">
+	</form>
+	<h2>Konto loomine</h2>
+	<p>Konto loomiseks sisestage järgnevad andmed</p>
+	<form method="POST">
+		<label>Teie eesnimi:</label>
+		<input name="signupFirstName" type="text" value="<?php echo $mySignupFirstName; ?>">
+		<label>Teie perenimi:</label>
+		<input name="signupFamilyName" type="text" value="<?php echo $mySignupFamilyName; ?>">
+		<label>Teie sugu:</label>
+		<input type="radio" name="gender" value="1">
+		<input type="radio" name="gender" value="2">
+		<label>Teie e-mail:</label>
+		<input name="signupEmail" tyle="email" value="<?php echo $mySignupEmail; ?>">
+		<label>Teie parool:</label>
+		<input name="signupPassword" type="password">
+		<input id="submitSignInInfo" name="submitSignInInfo" type="submit" value="Kinnita">
+	</form>
+
 	<h2>Paar linki</h2>
 	<p>Õpime <a href="http://www.tlu.ee" target="_blank">Tallinna Ülikoolis</a></p>
 	<p>Minu esimene php leht on <a href="../esimene.php">siin</a></p>
