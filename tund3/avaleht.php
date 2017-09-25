@@ -5,10 +5,10 @@
 	$practiceStarted = date("d.m.Y") ." " ."8.15";
 	$myAge = 0;
 	$myBirthYear;
-	$myLoginEmail;
-	$mySignupFirstName;
-	$mySignupFamilyName;
-	$mySignupEmail;
+	$loginEmail = "";
+	$signupFirstName = "";
+	$signupFamilyName = "";
+	$signupEmail = "";
 	$myLivedYearsList = "";
 	$monthNamesEt = ["jaanuar", "veebruar", "märts", "aprill", "mai", "juuni",
 	"juuli", "august", "september", "oktoober", "november", "detsember"];
@@ -42,20 +42,57 @@
 		$myLivedYearsList .= "</ul> \n";
 	}
 	
-	if(isset($_POST["loginEmail"])){
-		$myLoginEmail = $_POST["loginEmail"];
+//kas on kasutajanimi sisestatud
+	if (isset ($_POST["loginEmail"])){
+		if (empty ($_POST["loginEmail"])){
+			//$loginEmailError ="NB! Ilma selleta ei saa sisse logida!";
+		} else {
+			$loginEmail = $_POST["loginEmail"];
+		}
 	}
 	
-	if(isset($_POST["signupFirstName"])){
-		$mySignupFirstName = $_POST["signupFirstName"];
+	//kontrollime, kas kirjutati eesnimi
+	if (isset ($_POST["signupFirstName"])){
+		if (empty ($_POST["signupFirstName"])){
+			//$signupFirstNameError ="NB! Väli on kohustuslik!";
+		} else {
+			$signupFirstName = $_POST["signupFirstName"];
+		}
 	}
 	
-	if(isset($_POST["signupLastName"])){
-		$mySignupLastName = $_POST["signupLastName"];
+	//kontrollime, kas kirjutati perekonnanimi
+	if (isset ($_POST["signupFamilyName"])){
+		if (empty ($_POST["signupFamilyName"])){
+			//$signupFamilyNameError ="NB! Väli on kohustuslik!";
+		} else {
+			$signupFamilyName = $_POST["signupFamilyName"];
+		}
 	}
 	
-	if(isset($_POST["signupEmail;"])){
-		$mySignupEmail; = $_POST["signupEmail;"];
+	//kontrollime, kas kirjutati kasutajanimeks email
+	if (isset ($_POST["signupEmail"])){
+		if (empty ($_POST["signupEmail"])){
+			//$signupEmailError ="NB! Väli on kohustuslik!";
+		} else {
+			$signupEmail = $_POST["signupEmail"];
+		}
+	}
+	
+	if (isset ($_POST["signupPassword"])){
+		if (empty ($_POST["signupPassword"])){
+			//$signupPasswordError = "NB! Väli on kohustuslik!";
+		} else {
+			//polnud tühi
+			if (strlen($_POST["signupPassword"]) < 8){
+				//$signupPasswordError = "NB! Liiga lühike salasõna, vaja vähemalt 8 tähemärki!";
+			}
+		}
+	}
+	
+	if (isset($_POST["gender"]) && !empty($_POST["gender"])){ //kui on määratud ja pole tühi
+			$gender = intval($_POST["gender"]);
+		} else {
+			//$signupGenderError = " (Palun vali sobiv!) Määramata!";
 	}
 ?>
 
@@ -110,26 +147,26 @@
 	<h2>Sisse logimine</h2>
 	<p>Sisselogimiseks sisestage oma kasutajanimi ja parool</p>
 	<form method="POST">
-		<label>Teie kasutajanimi või e-mail:</label>
-		<input name="loginEmail" type="email" value="<?php echo $myLoginEmail; ?>">
-		<label>Teie parool:</label>
-		<input name="loginPassword" type="password">
+		<label>Teie kasutajanimi või e-mail:</label><br>
+		<input name="loginEmail" type="email" value="<?php echo $loginEmail; ?>"><br><br>
+		<label>Teie parool:</label><br>
+		<input name="loginPassword" type="password"><br>
 		<input id="submitLoginInfo" name="submitLoginInfo" type="submit" value="Kinnita">
 	</form>
 	<h2>Konto loomine</h2>
 	<p>Konto loomiseks sisestage järgnevad andmed</p>
 	<form method="POST">
-		<label>Teie eesnimi:</label>
-		<input name="signupFirstName" type="text" value="<?php echo $mySignupFirstName; ?>">
-		<label>Teie perenimi:</label>
-		<input name="signupFamilyName" type="text" value="<?php echo $mySignupFamilyName; ?>">
-		<label>Teie sugu:</label>
-		<input type="radio" name="gender" value="1">
-		<input type="radio" name="gender" value="2">
-		<label>Teie e-mail:</label>
-		<input name="signupEmail" tyle="email" value="<?php echo $mySignupEmail; ?>">
-		<label>Teie parool:</label>
-		<input name="signupPassword" type="password">
+		<label>Teie eesnimi:</label><br>
+		<input name="signupFirstName" type="text" value="<?php echo $signupFirstName; ?>"><br><br>
+		<label>Teie perenimi:</label><br>
+		<input name="signupFamilyName" type="text" value="<?php echo $signupFamilyName; ?>"><br><br>
+		<label>Teie sugu:</label><br>
+		<input type="radio" name="gender" value="1"><label>Mees</label><br>
+		<input type="radio" name="gender" value="2"><label>Naine</label><br><br>
+		<label>Teie e-mail:</label><br>
+		<input name="signupEmail" tyle="email" value="<?php echo $signupEmail; ?>"><br><br>
+		<label>Teie parool:</label><br>
+		<input name="signupPassword" type="password"><br><br>
 		<input id="submitSignInInfo" name="submitSignInInfo" type="submit" value="Kinnita">
 	</form>
 
