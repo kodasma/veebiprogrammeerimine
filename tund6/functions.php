@@ -82,7 +82,8 @@
 	function readAllIdeas(){
 		$ideasHTML = "";
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-		$stmt = $mysqli->prepare("SELECT idea, ideacolor FROM vpuserideas");
+		$stmt = $mysqli->prepare("SELECT idea, ideacolor FROM vpuserideas WHERE userid = ?");
+		$stmt->bind_param("i", $_SESSION["userId"]);
 		$stmt->bind_result($idea, $color);
 		$stmt->execute();
 		//$result = array();
@@ -92,6 +93,25 @@
 		$stmt->close();
 		$mysqli->close();
 		return $ideasHTML;
+	}
+	
+	//uusima idee lugemine
+	function latestIdea(){
+		$idea = "";
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+		//$stmt = $mysqli->prepare("SELECT idea, ideacolor FROM vpuserideas WHERE userid = ?");
+		$stmt = $mysqli->prepare("SELECT idea FROM vpuserideas WHERE id = (SELECT MAX(id) FROM vpuserideas)");
+		$stmt->bind_result($idea);
+		$stmt->execute();
+		/*if($stmt->execute()){
+			$ideaHTML .= $idea;
+		} else {
+			echo "Tekkis viga: " .$stmt->error;
+		}*/
+		$stmt->fetch();
+		$stmt->close();
+		$mysqli->close();
+		return $idea;
 	}
 	
 	//sisestuse kontrollimise funktsioon

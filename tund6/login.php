@@ -9,6 +9,8 @@
 		exit();
 	}
 	
+	$ideaHTML = "";
+	
 	$signupFirstName = "";
 	$signupFamilyName = "";
 	$signupEmail = "";
@@ -32,6 +34,8 @@
 	
 	$loginEmail = "";
 	$notice = "";
+	
+	$ideaHTML = latestIdea();
 	
 	//kas logitakse sisse
 	if (isset($_POST["loginButton"])){
@@ -206,7 +210,9 @@
 	<title>Sisselogimine või uue kasutaja loomine</title>
 </head>
 <body>
-	<h1>Logi sisse!</h1>
+	<h1>Heade mõtete veeb</h1>
+	<p>Värskeim hea mõte: <span><?php echo $ideaHTML; ?></span></p>
+	<h2>Logi sisse!</h2>
 	<p>Siin harjutame sisselogimise funktsionaalsust.</p>
 	
 	<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
@@ -220,7 +226,7 @@
 		<input name="loginButton" type="submit" value="Logi sisse"><span><?php echo $notice; ?></span>
 	</form>
 	
-	<h1>Loo kasutaja</h1>
+	<h2>Loo kasutaja</h2>
 	<p>Kui pole veel kasutajat....</p>
 	
 	<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
