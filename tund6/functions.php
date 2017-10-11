@@ -114,6 +114,23 @@
 		return $idea;
 	}
 	
+	function readuserinfo(){
+		$userinfo = "";
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+		$stmt = $mysqli->prepare("SELECT firstname, lastname, email FROM vpusers");
+		
+		$stmt->bind_result($firstname, $lastname, $email);
+		$stmt->execute();
+		//$result = array();
+		while ($stmt->fetch()){
+			$userinfo .= '<p>Kasutaja:</p>' .$firstname ."<br>" .$lastname ."<br>" .$email ."<br><br>";
+			
+		}
+		$stmt->close();
+		$mysqli->close();
+		return $userinfo;
+	}
+	
 	//sisestuse kontrollimise funktsioon
 	function test_input($data){
 		$data = trim($data); //ebavajalikud tühikud jms eemaldada

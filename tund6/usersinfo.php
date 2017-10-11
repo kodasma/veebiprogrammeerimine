@@ -1,5 +1,6 @@
 <?php
 	require("functions.php");
+	$infouser = "";
 	
 	//kui pole sisseloginud, siis sisselogimise lehele
 	if (!isset($_SESSION["userId"])){
@@ -13,6 +14,8 @@
 		session_destroy();
 		header("Location: login.php");
 	}
+	
+	$infouser = readuserinfo();
 	
 	/*
 	while($stmt->fetch()){
@@ -37,7 +40,8 @@
 	<p><a href="main.php">Pealeht</a></p>
 	<hr>
 	<h2>Kõik süsteemi kasutajad</h2>
-	<table border="1" style="border: 1px solid black; border-collapse: collapse">
+	
+	<!--<table border="1" style="border: 1px solid black; border-collapse: collapse">
 	<tr>
 		<th>Eesnimi</th><th>Perekonnanimi</th><th>E-post</th>
 	</tr>
@@ -50,7 +54,8 @@
 	<tr>
 		<td>Adolf</td><td>Hitler</td><td>adolf@hitler.ee</td>
 	</tr>
-	</table>
+	</table>-->
 	
+	<?php echo $infouser ?>
 </body>
 </html>
