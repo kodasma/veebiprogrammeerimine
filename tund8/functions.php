@@ -82,13 +82,15 @@
 	function readAllIdeas(){
 		$ideasHTML = "";
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-		$stmt = $mysqli->prepare("SELECT idea, ideacolor FROM vpuserideas WHERE userid = ?");
+		//$stmt = $mysqli->prepare("SELECT id, idea, ideacolor FROM vpuserideas WHERE userid = ?");
+		$stmt = $mysqli->prepare("SELECT id, idea, ideacolor FROM vpuserideas WHERE userid = ? ORDER BY id DESC");
 		$stmt->bind_param("i", $_SESSION["userId"]);
-		$stmt->bind_result($idea, $color);
+		$stmt->bind_result($ideaId, $idea, $color);
 		$stmt->execute();
 		//$result = array();
 		while ($stmt->fetch()){
-			$ideasHTML .= '<p style="background-color: ' .$color .'">' .$idea ."</p> \n";
+			$ideasHTML .= '<p style="background-color: ' .$color .'">' .$idea .' | <a href="ideaedit.php?id=' .$ideaId .'"> Muuda</a>' ."</p> \n";
+			//link: <a href="ideaedit.php?id=4> Muuda</a>
 		}
 		$stmt->close();
 		$mysqli->close();
