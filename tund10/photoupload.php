@@ -16,14 +16,7 @@
 	
 	//liidan klassi
 	require("classes/Photoupload.class.php");
-	//loome objekti
-	/*$myPhoto = new Photoupload("peidus");
-	echo $myPhoto->publicTest;
-	echo $myPhoto->privateTest;*/
-	//loome objekti(ajutine fail)
-	//$myPhoto = new Photoupload($_FILES["fileToUpload"]["tmp_name"], $imageFileType);
-	
-	
+
 	//algab foto laadimise osa
 	$target_dir = "../../pics/";
 	$target_file;
@@ -65,10 +58,10 @@
 			}
 			
 			// Check file size
-			if ($_FILES["fileToUpload"]["size"] > 2000000) {
+			/*if ($_FILES["fileToUpload"]["size"] > 2000000) {
 				$notice .= "Vabandame, fail on liiga suur!";
 				$uploadOk = 0;
-			}
+			}*/
 			
 			// Allow certain file formats
 			if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
@@ -92,79 +85,6 @@
 			if ($uploadOk == 0) {
 				$notice .= "Vabandame, su faili ei laetud üles!";
 			} else {
-				
-				//loeme EXIF infot, millal pilt tehti
-				/*@$exif = exif_read_data($_FILES["fileToUpload"]["tmp_name"], "ANY_TAG", 0, true);
-				//var_dump($exif);
-				if(!empty($exif["DateTimeOriginal"])){
-					$textToImage = "Pilt tehti: " .$exif["DateTimeOriginal"];
-				} else {
-					$textToImage = "Pildistamise aeg teadmata!";
-				}*/
-				
-				//lähtudes failitüübist, loon sobiva pildiobjekti
-				/*if($imageFileType == "jpg" or $imageFileType == "jpeg"){
-					$myTempImage = imagecreatefromjpeg($_FILES["fileToUpload"]["tmp_name"]);
-				}
-				if($imageFileType == "png"){
-					$myTempImage = imagecreatefrompng($_FILES["fileToUpload"]["tmp_name"]);
-				}
-				if($imageFileType == "gif"){
-					$myTempImage = imagecreatefromgif($_FILES["fileToUpload"]["tmp_name"]);	
-				}*/
-				
-				//suuruse muutmine
-				//küsime originaalsuurust
-				/*$imageWidth = imagesx($myTempImage);
-				$imageHeight = imagesy($myTempImage);
-				$sizeRatio = 1;
-				if($imageWidth > $imageHeight){
-					$sizeRatio = $imageWidth / $maxWidth;
-				} else {
-					$sizeRatio = $imageHeight / $maxHeight;
-				}
-				$myImage = resize_image($myTempImage, $imageWidth, $imageHeight, round($imageWidth / $sizeRatio), round($imageHeight / $sizeRatio));*/
-				
-				//vesimärgi lisamine
-				/*$stamp = imagecreatefrompng("../../graphics/hmv_logo.png");
-				$stampWidth = imagesx($stamp);
-				$stampHeight = imagesy($stamp);
-				$stampPosX = round($imageWidth / $sizeRatio) - $stampWidth - $marginRight;
-				$stampPosY = round($imageHeight / $sizeRatio) - $stampHeight - $marginBottom;
-				imageCopy($myImage, $stamp, $stampPosX, $stampPosY, 0, 0, $stampWidth, $stampHeight);*/
-				
-				//lisame ka teskti vesimärgina
-				/*$textColor = imagecolorallocatealpha($myImage, 150, 150, 150, 50);
-				//RGBA alpha 0-127
-				imagettftext($myImage, 20, 0, 10, 25, $textColor, "../../graphics/ARIAL.TTF", $textToImage);*/
-				
-				//salvestame pildi
-				/*if($imageFileType == "jpg" or $imageFileType == "jpeg"){
-					if(imagejpeg($myImage, $target_file, 95)){
-						$notice = "Fail: " .basename( $_FILES["fileToUpload"]["name"]). " on üles laetud!";
-					} else {
-						$notice .= "Vabandust, üleslaadimisel tekkis tõrge!";
-					}
-				}
-				if($imageFileType == "png"){
-					if(imagepng($myImage, $target_file, 95)){
-						$notice = "Fail: " .basename( $_FILES["fileToUpload"]["name"]). " on üles laetud!";
-					} else {
-						$notice .= "Vabandust, üleslaadimisel tekkis tõrge!";
-					}
-				}
-				if($imageFileType == "gif"){
-					if(imagegif($myImage, $target_file, 95)){
-						$notice = "Fail: " .basename( $_FILES["fileToUpload"]["name"]). " on üles laetud!";
-					} else {
-						$notice .= "Vabandust, üleslaadimisel tekkis tõrge!";
-					}
-				}*/
-				//mälu vabastamine
-				/*imagedestroy($myImage);
-				imagedestroy($myTempImage);
-				imagedestroy($stamp);*/
-				
 				//kasutan klassi
 				$myPhoto = new Photoupload($_FILES["fileToUpload"]["tmp_name"], $imageFileType);
 				$myPhoto->readExif();
@@ -186,9 +106,7 @@
 		imagecopyresampled($dst, $image, 0, 0, 0, 0, $w, $h, $origW, $origH);
 		return $dst;
 	}*/
-?>
 
-<?php
 	require("header.php");
 ?>
 	<h1>Piltide üles laadimine</h1>
@@ -197,9 +115,11 @@
 <form action="photoupload.php" method="post" enctype="multipart/form-data">
     Vali pilt (Max 2MB):<br><br>
     <input type="file" name="fileToUpload" id="fileToUpload"><br><br>
-    <input type="submit" value="Lae Üles" name="submit"><br><br>
-	<span><?php echo $notice ?></span>
+    <input type="submit" value="Lae Üles" name="submit" id="submitPhoto"><span id="fileSizeError"></span><br><br>
 </form>	
+
+<span><?php echo $notice ?></span>
 <?php
+	echo '<script type="text/javascript" src="javascript/checkFileSize.js"></script>';
 	require("footer.php");
 ?>
